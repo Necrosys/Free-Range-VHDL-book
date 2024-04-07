@@ -1,20 +1,25 @@
-name: Build Book
+name: Build and release book
 on:
   push:
+    branches:
+    - action
     tags:
-      - '*'
+    - '*'
 
 jobs:
-  build_book:
-    name: Build book
+  build_and_release_book:
+    name: Build and release book
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Make book
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build book
         uses: ./.github/actions/latex
-      - name: Uploadartifacts
-        uses: actions/upload-artifact@v3
+      - name: Release book
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           name: free_range_vhdl
           path: free_range_vhdl.pdf
-          retention-days: 15
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
