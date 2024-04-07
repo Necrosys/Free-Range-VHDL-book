@@ -19,7 +19,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: free_range_vhdl
-          path: free_range_vhdl.pdf
+          files: free_range_vhdl.pdf
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
